@@ -11,24 +11,38 @@
 #
 
 # Modify default IP
-sed -i 's/192.168.1.1/192.168.10.1/g' package/base-files/files/bin/config_generate
+# sed -i 's/192.168.1.1/192.168.100.1/g' package/base-files/files/bin/config_generate
 
 # Modify default theme
-#sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
+sed -i 's/luci-theme-material/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
 
-# Modify hostname
-sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
+# Patch OverClock
+# wget https://github.com/Haris131/uz801v3-kernel/commit/fabdd0494c48f7c86ebf63f96e2a8c213ecdb96c.patch -O target/linux/msm89xx/patches-6.1/0096-overclock-msm8916.patch
+# wget https://github.com/Haris131/uz801v3-kernel/commit/fabdd0494c48f7c86ebf63f96e2a8c213ecdb96c.patch -O target/linux/msm89xx/patches-6.6/0096-overclock-msm8916.patch
+# wget https://github.com/Haris131/uz801v3-kernel/commit/fabdd0494c48f7c86ebf63f96e2a8c213ecdb96c.patch -O target/linux/msm89xx/patches-6.12/0096-overclock-msm8916.patch
 
-# 删除自定义源默认的 argon 主题
-rm -rf package/lean/luci-theme-argon
+# Patch Fix led name
+# wget https://github.com/Haris131/uz801v3-kernel/commit/55fad55a0f18517d02d66003b5ec70975d46accb.patch -O target/linux/msm89xx/patches-6.1/0097-fix-led-msm8916.patch
+# wget https://github.com/Haris131/uz801v3-kernel/commit/55fad55a0f18517d02d66003b5ec70975d46accb.patch -O target/linux/msm89xx/patches-6.6/0097-fix-led-msm8916.patch
+# wget https://github.com/Haris131/uz801v3-kernel/commit/55fad55a0f18517d02d66003b5ec70975d46accb.patch -O target/linux/msm89xx/patches-6.12/0097-fix-led-msm8916.patch
 
-# 拉取 argon 原作者的源码
-git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
+# cat <<EOF >> target/linux/msm89xx/config-6.1
 
-# 替换默认主题为 luci-theme-argon
-sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
-#删掉自带geoview
-rm -rf feeds/packages/net/geoview
-# 更新 golang 25.x 版本 
-rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 25.x feeds/packages/lang/golang
+# CONFIG_BT_QCOMSMD=m
+# CONFIG_QCOM_IPA=m
+# EOF
+
+# cat <<EOF >> target/linux/msm89xx/config-6.6
+
+# CONFIG_BT_QCOMSMD=m
+# CONFIG_QCOM_IPA=m
+# EOF
+
+# cat <<EOF >> target/linux/msm89xx/config-6.12
+
+# CONFIG_BT_QCOMSMD=m
+# CONFIG_QCOM_IPA=m
+# EOF
+
+# HelmiWrt packages
+# git clone --depth=1 https://github.com/Haris131/helmiwrt-packages package/community
