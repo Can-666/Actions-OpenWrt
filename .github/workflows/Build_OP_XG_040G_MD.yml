@@ -57,6 +57,13 @@ jobs:
         sudo timedatectl set-timezone "${TZ}"
         echo "status=success" >> ${GITHUB_OUTPUT}
         
+    - name: Ensure Python build tools
+      run: |
+        python3 -m pip install --upgrade pip setuptools wheel
+        python3 -m pip --version
+        python3 -c "import setuptools.build_meta; print('setuptools.build_meta OK')"
+        python3 -m pip install Unidecode
+        
         
     - name: Clone source code
       id: codes
