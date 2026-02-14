@@ -108,7 +108,8 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P4_SH
 
     - name: Update & Install feeds
-      working-directory: ./openwrt
+      working-directory: ./mnt
+      sudo chmod 777 /mnt
       run: |
         ./scripts/feeds update -a
         
@@ -134,7 +135,8 @@ jobs:
         openwrt/feeds.conf.default
       
     - name: Download package
-      working-directory: ./openwrt
+      working-directory: ./mnt
+      sudo chmod 777 /mnt
       run: |
         make download -j4 V=s
         find dl -size -1024c -delete
